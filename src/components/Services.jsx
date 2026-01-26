@@ -1,66 +1,67 @@
+// src/components/Services.jsx
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Solutions = () => {
+const Services = () => {
   const sectionRef = useRef(null);
   const headingRef = useRef(null);
   const marqueeRef = useRef(null);
-  const solutionsRef = useRef([]);
+  const servicesRef = useRef([]);
   const lineRef = useRef(null);
 
-  const solutionsData = [
+  const servicesData = [
     {
       id: 1,
       number: '01',
-      title: 'Digital Experience & UI',
-      description: 'Transforming complex ideas into intuitive, high-performance interfaces. I focus on speed and accessibility to ensure your users stay engaged and convert.',
-      features: ['Conversion-Focused UI', 'Performance Optimization', 'Brand-Consistent Design', 'Motion Engineering'],
+      title: 'Frontend Development',
+      description: 'Building modern, responsive, and performant user interfaces using React, Next.js, and TypeScript. Pixel-perfect implementations with smooth animations.',
+      features: ['React & Next.js', 'TypeScript', 'Responsive Design', 'GSAP Animations'],
       icon: '◆',
     },
     {
       id: 2,
       number: '02',
-      title: 'Scalable Systems Architecture',
-      description: 'Building the robust backbone of your business. I create secure, end-to-end infrastructures that grow with your user base without breaking a sweat.',
-      features: ['Secure Cloud Architecture', 'Database Optimization', 'Seamless API Systems', 'Enterprise Security'],
+      title: 'Full Stack Development',
+      description: 'End-to-end web application development from database design to deployment. RESTful APIs, authentication, and scalable architecture.',
+      features: ['Node.js & Express', 'MongoDB', 'REST APIs', 'Authentication'],
       icon: '◇',
     },
     {
       id: 3,
       number: '03',
-      title: 'Revenue-Driven E-Commerce',
-      description: 'Custom digital storefronts engineered for sales. From friction-less checkouts to inventory automation, I build tools that generate ROI.',
-      features: ['Conversion Optimization', 'Secure Payments', 'Automated Logistics', 'Advanced Analytics'],
+      title: 'E-Commerce Solutions',
+      description: 'Custom e-commerce platforms with seamless checkout, inventory management, and payment integration. Built for conversion and scale.',
+      features: ['Product Management', 'Payment Integration', 'Cart & Checkout', 'Admin Dashboards'],
       icon: '○',
     },
     {
       id: 4,
       number: '04',
-      title: 'High-Impact Brand Presence',
-      description: 'Custom-tailored portfolios and landing pages that command authority. I create immersive digital first impressions that turn visitors into partners.',
-      features: ['Authority Building', 'Interactive Storytelling', 'SEO Dominance', 'Unique Brand Identity'],
+      title: 'Portfolio Websites',
+      description: 'Stunning personal portfolios that make lasting impressions. Bold designs with smooth interactions that showcase your work beautifully.',
+      features: ['Custom Design', 'Animations', 'SEO Optimized', 'Fast Loading'],
       icon: '□',
     },
     {
       id: 5,
       number: '05',
-      title: 'AI & Workflow Automation',
-      description: 'Reclaiming your time through intelligent systems. I implement AI-driven solutions and chatbots that handle support and leads while you sleep.',
-      features: ['LLM Integration', 'Support Automation', 'Lead Qualification', 'Process Efficiency'],
+      title: 'Automation & Chatbots',
+      description: 'Intelligent chatbots and automation solutions for businesses. Streamline customer support and automate repetitive tasks with AI.',
+      features: ['AI Integration', 'Customer Support', 'Lead Generation', 'Business Automation'],
       icon: '△',
     },
   ];
 
-  const marqueeText = 'SOLUTIONS — DRIVING GROWTH — SOLUTIONS — DRIVING GROWTH — ';
+  const marqueeText = 'SERVICES — WHAT I DO — SERVICES — WHAT I DO — ';
 
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Section label
       gsap.fromTo(
-        '.solutions .section-label',
+        '.services .section-label',
         { opacity: 0, x: -30 },
         {
           opacity: 1,
@@ -124,12 +125,12 @@ const Solutions = () => {
         }
       );
 
-      // Solution cards
-      solutionsRef.current.forEach((sol, index) => {
-        if (!sol) return;
+      // Service cards
+      servicesRef.current.forEach((service, index) => {
+        if (!service) return;
 
         gsap.fromTo(
-          sol,
+          service,
           { y: 80, opacity: 0 },
           {
             y: 0,
@@ -138,7 +139,7 @@ const Solutions = () => {
             delay: index * 0.1,
             ease: 'power3.out',
             scrollTrigger: {
-              trigger: sol,
+              trigger: service,
               start: 'top 85%',
             },
           }
@@ -149,18 +150,18 @@ const Solutions = () => {
     return () => ctx.revert();
   }, []);
 
-  const addToSolutionsRefs = (el) => {
-    if (el && !solutionsRef.current.includes(el)) {
-      solutionsRef.current.push(el);
+  const addToServicesRefs = (el) => {
+    if (el && !servicesRef.current.includes(el)) {
+      servicesRef.current.push(el);
     }
   };
 
-  const handleMouseMove = (e, solEl) => {
-    const rect = solEl.getBoundingClientRect();
+  const handleMouseMove = (e, serviceEl) => {
+    const rect = serviceEl.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
 
-    gsap.to(solEl, {
+    gsap.to(serviceEl, {
       x: x * 0.08,
       y: y * 0.08,
       rotationY: x * 0.015,
@@ -170,8 +171,8 @@ const Solutions = () => {
     });
   };
 
-  const handleMouseLeave = (solEl) => {
-    gsap.to(solEl, {
+  const handleMouseLeave = (serviceEl) => {
+    gsap.to(serviceEl, {
       x: 0,
       y: 0,
       rotationY: 0,
@@ -189,67 +190,67 @@ const Solutions = () => {
   };
 
   return (
-    <section id="solutions" ref={sectionRef} className="solutions">
-      <div className="solutions-marquee-container">
-        <div ref={marqueeRef} className="solutions-marquee">
+    <section id="services" ref={sectionRef} className="services">
+      <div className="services-marquee-container">
+        <div ref={marqueeRef} className="services-marquee">
           <span>{marqueeText}</span>
           <span>{marqueeText}</span>
         </div>
       </div>
 
-      <div className="solutions-container">
-        <div className="solutions-header">
-          <div className="section-label">003 — Solutions</div>
-          <h2 ref={headingRef} className="solutions-heading">
-            Strategic solutions<br />
-            <span className="heading-outline">for your growth</span>
+      <div className="services-container">
+        <div className="services-header">
+          <div className="section-label">003 — Services</div>
+          <h2 ref={headingRef} className="services-heading">
+            What I can do<br />
+            <span className="heading-outline">for you</span>
           </h2>
         </div>
 
-        <div ref={lineRef} className="solutions-line"></div>
+        <div ref={lineRef} className="services-line"></div>
 
-        <div className="solutions-grid">
-          {solutionsData.map((sol) => (
+        <div className="services-grid">
+          {servicesData.map((service) => (
             <div
-              key={sol.id}
-              ref={addToSolutionsRefs}
-              className="solution-card hover-target"
+              key={service.id}
+              ref={addToServicesRefs}
+              className="service-card hover-target"
               onMouseMove={(e) => handleMouseMove(e, e.currentTarget)}
               onMouseLeave={(e) => handleMouseLeave(e.currentTarget)}
             >
-              <div className="solution-header">
-                <span className="solution-number">{sol.number}</span>
-                <span className="solution-icon">{sol.icon}</span>
+              <div className="service-header">
+                <span className="service-number">{service.number}</span>
+                <span className="service-icon">{service.icon}</span>
               </div>
               
-              <h3 className="solution-title">{sol.title}</h3>
-              <p className="solution-description">{sol.description}</p>
+              <h3 className="service-title">{service.title}</h3>
+              <p className="service-description">{service.description}</p>
               
-              <div className="solution-features">
-                {sol.features.map((feature, index) => (
-                  <span key={`${sol.id}-feature-${index}`} className="solution-feature">
+              <div className="service-features">
+                {service.features.map((feature, index) => (
+                  <span key={`${service.id}-feature-${index}`} className="service-feature">
                     {feature}
                   </span>
                 ))}
               </div>
 
-              <div className="solution-cta">
-                <span className="solution-cta-text">View Strategy</span>
-                <span className="solution-cta-arrow">→</span>
+              <div className="service-cta">
+                <span className="service-cta-text">Learn more</span>
+                <span className="service-cta-arrow">→</span>
               </div>
 
-              <div className="solution-gradient"></div>
+              <div className="service-gradient"></div>
             </div>
           ))}
         </div>
 
-        <div className="solutions-cta-section">
-          <div className="solutions-cta-text">
-            <p>Ready to scale your digital presence?</p>
-            <h3>Let's build the solution your business needs.</h3>
+        <div className="services-cta-section">
+          <div className="services-cta-text">
+            <p>Have a project in mind?</p>
+            <h3>Let's build something amazing together.</h3>
           </div>
-          <button onClick={scrollToContact} className="solutions-cta-button hover-target">
-            <span>Get a Consultation</span>
+          <button onClick={scrollToContact} className="services-cta-button hover-target">
+            <span>Start a Project</span>
             <span className="cta-arrow">↗</span>
           </button>
         </div>
@@ -258,4 +259,4 @@ const Solutions = () => {
   );
 };
 
-export default Solutions;
+export default Services;
