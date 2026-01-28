@@ -12,6 +12,7 @@ import Works from './components/Works';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import Services from './components/Services';
+import VideoCV from './components/VideoCV.Scrapbook';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -50,6 +51,7 @@ function App() {
           <Navbar />
           <Hero />
           <About />
+          <VideoCV />
           <Works />
           <Services />
           <Contact />
