@@ -17,6 +17,7 @@ const CustomCursor = () => {
         duration: 0.5,
         ease: 'power3.out',
       });
+
       gsap.to(cursorDot, {
         x: e.clientX,
         y: e.clientY,
@@ -26,8 +27,12 @@ const CustomCursor = () => {
 
     const handleMouseEnter = () => {
       gsap.to(cursor, {
-        scale: 2,
-        opacity: 0.5,
+        scale: 1.8,
+        duration: 0.3,
+        ease: 'back.out(1.5)',
+      });
+      gsap.to(cursorDot, {
+        scale: 0.5,
         duration: 0.3,
       });
     };
@@ -35,7 +40,11 @@ const CustomCursor = () => {
     const handleMouseLeave = () => {
       gsap.to(cursor, {
         scale: 1,
-        opacity: 1,
+        duration: 0.3,
+        ease: 'back.out(1.5)',
+      });
+      gsap.to(cursorDot, {
+        scale: 1,
         duration: 0.3,
       });
     };
@@ -58,10 +67,41 @@ const CustomCursor = () => {
     };
   }, []);
 
+  // INLINE STYLES
+  const cursorStyles = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '40px',
+    height: '40px',
+    border: '3px dashed #1a1a1a',
+    borderRadius: '50%',
+    pointerEvents: 'none',
+    zIndex: 9999,
+    transform: 'translate(-50%, -50%)',
+    mixBlendMode: 'difference',
+    background: 'rgba(255, 255, 255, 0.1)',
+    opacity: 0.8,
+  };
+
+  const cursorDotStyles = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '8px',
+    height: '8px',
+    background: '#ff6b6b',
+    borderRadius: '50%',
+    pointerEvents: 'none',
+    zIndex: 10000,
+    transform: 'translate(-50%, -50%)',
+    boxShadow: '0 0 10px rgba(255, 107, 107, 0.5)',
+  };
+
   return (
     <>
-      <div ref={cursorRef} className="custom-cursor"></div>
-      <div ref={cursorDotRef} className="custom-cursor-dot"></div>
+      <div ref={cursorRef} style={cursorStyles}></div>
+      <div ref={cursorDotRef} style={cursorDotStyles}></div>
     </>
   );
 };
