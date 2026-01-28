@@ -225,21 +225,39 @@ const Hero = () => {
     minHeight: '100vh',
   };
 
+  const heroContentStyles = {
+    maxWidth: '600px',
+  };
+
+  const heroTitleStyles = {
+    marginBottom: '30px',
+  };
+
+  const heroNameLineStyles = {
+    fontSize: 'clamp(48px, 8vw, 72px)',
+    fontWeight: '900',
+    lineHeight: '0.9',
+    color: '#fff',
+    overflow: 'hidden',
+    whiteSpace: 'nowrap',
+  };
+
   return (
     <section id="home" ref={heroRef} className="hero">
       <div className="hero-inner" style={heroInnerStyles}>
         <div
           className="hero-content"
+          style={heroContentStyles}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
         >
           <div className="hero-eyebrow">{heroData.eyebrow}</div>
 
-          <div ref={titleRef} className="hero-title">
-            <div className="hero-name-line">
+          <div ref={titleRef} className="hero-title" style={heroTitleStyles}>
+            <div className="hero-name-line" style={heroNameLineStyles}>
               {renderAnimatedText(heroData.firstName)}
             </div>
-            <div className="hero-name-line outlined">
+            <div className="hero-name-line outlined" style={heroNameLineStyles}>
               {renderAnimatedText(heroData.lastName)}
             </div>
           </div>
