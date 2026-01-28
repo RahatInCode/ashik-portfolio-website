@@ -1,109 +1,104 @@
-// src/components/Works.jsx
+// src/components/Footer.jsx
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const Works = () => {
-  const sectionRef = useRef(null);
-  const headingRef = useRef(null);
-  const projectRefs = useRef([]);
+const Footer = () => {
+  const footerRef = useRef(null);
+  const bigNameRef = useRef(null);
+  const columnRefs = useRef([]);
 
-  const projectsData = [
-    {
-      id: 1,
-      title: 'Luxe E-Commerce',
-      category: 'E-Commerce',
-      description: 'A performant e-commerce platform with authentication, product management, and animated UI.',
-      year: '2025',
-      tags: ['Next.js', 'Clerk', 'Tailwind', 'ShadCN', 'GSAP', 'MongoDB'],
-      link: 'https://luxe-zeta-e-commerce.vercel.app/',
-      image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop',
-      color: '#FFF9C4',
+  const footerData = {
+    name: 'ASHIKUZZAMAN',
+    email: 'ahmedrahat.dev@gmail.com',
+    phone: '+880 1933-471091',
+    location: 'Khulna, Bangladesh',
+    resumeLink: '/Ashik_Junior-Frontend-Developer_Resume.pdf',  
+    resumeFileName: 'Ashikuzzaman_Resume.pdf', 
+    links: {
+      navigation: [
+        { label: 'Home', href: '#home' },
+        { label: 'About', href: '#about' },
+        { label: 'Services', href: '#services' },
+        { label: 'Works', href: '#works' },
+        { label: 'Contact', href: '#contact' },
+      ],
+      social: [
+        { label: 'LinkedIn', href: 'https://www.linkedin.com/in/ahmed-rahat-5a6145387/' },
+        { label: 'GitHub', href: 'https://github.com/RahatInCode' },
+        { label: 'Twitter', href: 'https://x.com/AhmedRahat691' },
+      ],
     },
-    {
-      id: 2,
-      title: 'Rezoom AI',
-      category: 'AI/Web App',
-      description: 'AI-powered resume builder and mock interview simulator with OpenAI integration.',
-      year: '2025',
-      tags: ['Next.js', 'OpenAI API', 'TypeScript', 'Tailwind CSS'],
-      link: 'https://rezoom-ai-pi.vercel.app/',
-      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&h=600&fit=crop',
-      color: '#B2DFDB',
-    },
-    {
-      id: 3,
-      title: 'Medicamp',
-      category: 'Full-Stack',
-      description: 'Full-stack medical camp management platform with role-based dashboards.',
-      year: '2025',
-      tags: ['MERN Stack', 'Firebase', 'React Query', 'Framer Motion'],
-      link: 'https://medicamp-1e9cc.web.app/',
-      image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800&h=600&fit=crop',
-      color: '#F8BBD0',
-    },
-  ];
+    year: new Date().getFullYear(),
+  };
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        headingRef.current,
-        { y: 60, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: 'power4.out',
-          scrollTrigger: {
-            trigger: headingRef.current,
-            start: 'top 80%',
-          },
-        }
-      );
-
-      projectRefs.current.forEach((project, index) => {
-        if (!project) return;
+      columnRefs.current.forEach((column, index) => {
+        if (!column) return;
         gsap.fromTo(
-          project,
-          { y: 80, opacity: 0, rotation: 0 },
+          column,
+          { y: 50, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            rotation: project.dataset.rotation,
-            duration: 1,
-            delay: index * 0.15,
-            ease: 'back.out(1.2)',
+            duration: 0.8,
+            delay: index * 0.1,
+            ease: 'power3.out',
             scrollTrigger: {
-              trigger: project,
-              start: 'top 90%',
+              trigger: footerRef.current,
+              start: 'top 85%',
             },
           }
         );
       });
-    }, sectionRef);
+
+      gsap.fromTo(
+        bigNameRef.current,
+        { scale: 0.8, opacity: 0 },
+        {
+          scale: 1,
+          opacity: 1,
+          duration: 1.2,
+          ease: 'back.out(1.2)',
+          scrollTrigger: {
+            trigger: bigNameRef.current,
+            start: 'top 90%',
+          },
+        }
+      );
+    }, footerRef);
 
     return () => ctx.revert();
   }, []);
 
-  const addToProjectRefs = (el) => {
-    if (el && !projectRefs.current.includes(el)) {
-      projectRefs.current.push(el);
+  const addToColumnRefs = (el) => {
+    if (el && !columnRefs.current.includes(el)) {
+      columnRefs.current.push(el);
     }
   };
 
-  const handleProjectClick = (link) => {
-    window.open(link, '_blank', 'noopener,noreferrer');
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNavClick = (e, href) => {
+    e.preventDefault();
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   // INLINE STYLES
-  const sectionStyles = {
+  const footerStyles = {
     position: 'relative',
-    padding: '120px 0',
+    padding: '80px 0 40px',
     background: '#f5f5f0',
     backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.015) 2px, rgba(0, 0, 0, 0.015) 4px)',
-    overflow: 'hidden',
+    borderTop: '3px dashed rgba(0, 0, 0, 0.1)',
   };
 
   const containerStyles = {
@@ -112,268 +107,318 @@ const Works = () => {
     padding: '0 60px',
   };
 
-  const headerStyles = {
-    textAlign: 'center',
-    marginBottom: '80px',
+  const mainGridStyles = {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+    gap: '40px',
+    marginBottom: '60px',
+  };
+
+  const columnStyles = {
+    background: '#fff',
+    padding: '24px',
+    borderRadius: '8px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.08)',
+    border: '2px solid rgba(0, 0, 0, 0.05)',
+    transform: 'rotate(-1deg)',
   };
 
   const labelStyles = {
-    display: 'inline-block',
+    display: 'block',
     fontSize: '11px',
     textTransform: 'uppercase',
-    letterSpacing: '2px',
-    color: '#666',
-    fontWeight: '600',
-    marginBottom: '20px',
-    padding: '8px 16px',
-    background: 'rgba(255, 255, 255, 0.6)',
-    borderRadius: '20px',
-    border: '1px solid rgba(0, 0, 0, 0.06)',
-  };
-
-  const headingStyles = {
-    fontSize: 'clamp(40px, 5vw, 64px)',
-    fontWeight: '800',
-    lineHeight: '1.2',
-    color: '#1a1a1a',
+    letterSpacing: '1.5px',
+    color: '#999',
     marginBottom: '16px',
+    fontWeight: '700',
     fontFamily: '"Courier New", monospace',
   };
 
-  const subheadingStyles = {
-    fontSize: '18px',
-    lineHeight: '1.6',
-    color: '#666',
-    maxWidth: '600px',
-    margin: '0 auto',
+  const linkStyles = {
+    display: 'block',
+    fontSize: '15px',
+    color: '#333',
+    textDecoration: 'none',
+    marginBottom: '10px',
     fontFamily: '"Comic Sans MS", cursive, sans-serif',
-  };
-
-  const gridStyles = {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-    gap: '60px',
-    padding: '40px 0',
-  };
-
-  const projectCardStyles = (color, rotation) => ({
-    background: color,
-    borderRadius: '12px',
-    overflow: 'hidden',
-    boxShadow: '0 10px 40px rgba(0, 0, 0, 0.15)',
-    transform: `rotate(${rotation}deg)`,
-    transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
-    cursor: 'pointer',
+    fontWeight: '600',
+    transition: 'all 0.2s',
+    paddingLeft: '20px',
     position: 'relative',
-    border: '3px solid rgba(0, 0, 0, 0.1)',
-  });
-
-  const projectCardHoverStyles = {
-    transform: 'rotate(0deg) translateY(-10px)',
-    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.25)',
   };
 
-  const imageContainerStyles = {
-    position: 'relative',
-    width: '100%',
-    height: '280px',
-    overflow: 'hidden',
-    background: '#f0f0f0',
-  };
-
-  const imageStyles = {
-    width: '100%',
-    height: '100%',
-    objectFit: 'cover',
-    transition: 'transform 0.4s',
-  };
-
-  const imageHoverStyles = {
-    transform: 'scale(1.1)',
-  };
-
-  const overlayStyles = {
-    position: 'absolute',
-    inset: 0,
-    background: 'linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.4))',
-    display: 'flex',
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    padding: '20px',
-    opacity: 0,
-    transition: 'opacity 0.3s',
-  };
-
-  const overlayHoverStyles = {
-    opacity: 1,
-  };
-
-  const viewProjectStyles = {
-    padding: '12px 24px',
-    background: '#fff',
-    color: '#1a1a1a',
-    borderRadius: '50px',
+  const contactValueStyles = {
     fontSize: '14px',
+    color: '#333',
+    lineHeight: '1.8',
+    fontFamily: '"Comic Sans MS", cursive, sans-serif',
+    display: 'block',
+    marginBottom: '8px',
+    textDecoration: 'none',
+  };
+
+  const resumeBtnStyles = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '8px',
+    padding: '12px 24px',
+    marginTop: '16px',
+    fontSize: '13px',
     fontWeight: '700',
+    background: '#1a1a1a',
+    color: '#fff',
+    border: 'none',
+    borderRadius: '50px',
+    textDecoration: 'none',
     fontFamily: '"Courier New", monospace',
     textTransform: 'uppercase',
     letterSpacing: '0.5px',
-    border: '2px solid #1a1a1a',
-    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.2)',
+    transition: 'all 0.3s',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.15)',
   };
 
-  const projectInfoStyles = {
-    padding: '28px',
+  const resumeBtnHoverStyles = {
+    transform: 'translateY(-2px)',
+    boxShadow: '0 6px 20px rgba(0, 0, 0, 0.25)',
   };
 
-  const projectHeaderStyles = {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    marginBottom: '12px',
+  // Big Name Section
+  const nameContainerStyles = {
+    textAlign: 'center',
+    marginBottom: '60px',
+    position: 'relative',
   };
 
-  const projectTitleStyles = {
-    fontSize: '24px',
-    fontWeight: '800',
+  const bigNameStyles = {
+    fontSize: 'clamp(40px, 8vw, 120px)',
+    fontWeight: '900',
     color: '#1a1a1a',
     fontFamily: '"Courier New", monospace',
-    marginBottom: '4px',
-  };
-
-  const categoryStyles = {
-    fontSize: '12px',
-    color: '#666',
+    letterSpacing: '4px',
     textTransform: 'uppercase',
-    letterSpacing: '1px',
-    fontWeight: '700',
-    fontFamily: '"Courier New", monospace',
+    opacity: '0.15',
+    userSelect: 'none',
   };
 
-  const yearBadgeStyles = {
-    padding: '4px 12px',
-    background: 'rgba(0, 0, 0, 0.1)',
+  const thankYouCardStyles = {
+    background: '#B2DFDB',
+    padding: '40px',
     borderRadius: '12px',
-    fontSize: '12px',
-    fontWeight: '700',
-    color: '#333',
+    textAlign: 'center',
+    boxShadow: '0 8px 30px rgba(0, 0, 0, 0.12)',
+    border: '3px solid rgba(0, 0, 0, 0.1)',
+    transform: 'rotate(-1deg)',
+    marginBottom: '60px',
+    position: 'relative',
+  };
+
+  const thankYouTextStyles = {
+    fontSize: 'clamp(28px, 4vw, 48px)',
+    fontWeight: '800',
+    color: '#1a1a1a',
+    marginBottom: '12px',
     fontFamily: '"Courier New", monospace',
   };
 
-  const descriptionStyles = {
-    fontSize: '14px',
-    lineHeight: '1.6',
+  const thankYouSubtextStyles = {
+    fontSize: '16px',
     color: '#333',
-    marginBottom: '16px',
+    fontFamily: '"Comic Sans MS", cursive, sans-serif',
+    maxWidth: '600px',
+    margin: '0 auto',
+    lineHeight: '1.6',
+  };
+
+  // Decorative stamps
+  const stampStyles = (emoji, rotation) => ({
+    position: 'absolute',
+    fontSize: '48px',
+    transform: `rotate(${rotation}deg)`,
+    opacity: '0.6',
+  });
+
+  // Bottom section
+  const bottomStyles = {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingTop: '32px',
+    borderTop: '2px dashed rgba(0, 0, 0, 0.1)',
+    flexWrap: 'wrap',
+    gap: '20px',
+  };
+
+  const copyrightStyles = {
+    fontSize: '13px',
+    color: '#666',
+    fontFamily: '"Courier New", monospace',
+  };
+
+  const creditsStyles = {
+    fontSize: '14px',
+    color: '#333',
     fontFamily: '"Comic Sans MS", cursive, sans-serif',
   };
 
-  const tagsContainerStyles = {
+  const heartStyles = {
+    color: '#ff6b6b',
+    display: 'inline-block',
+    animation: 'pulse 1.5s infinite',
+  };
+
+  const backToTopStyles = {
     display: 'flex',
-    flexWrap: 'wrap',
+    alignItems: 'center',
     gap: '8px',
-  };
-
-  const tagStyles = {
-    padding: '5px 12px',
-    background: 'rgba(0, 0, 0, 0.08)',
-    borderRadius: '12px',
-    fontSize: '11px',
-    fontWeight: '600',
-    color: '#333',
-    border: '1px solid rgba(0, 0, 0, 0.1)',
+    padding: '10px 20px',
+    fontSize: '13px',
+    fontWeight: '700',
+    background: '#fff',
+    color: '#1a1a1a',
+    border: '2px solid #1a1a1a',
+    borderRadius: '50px',
+    cursor: 'pointer',
     fontFamily: '"Courier New", monospace',
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
+    transition: 'all 0.3s',
   };
 
-  // Decorative tape on cards
-  const tapeStyles = {
-    position: 'absolute',
-    top: '-10px',
-    left: '30px',
-    width: '60px',
-    height: '20px',
-    background: 'rgba(255, 255, 255, 0.5)',
-    transform: 'rotate(-8deg)',
-    boxShadow: 'inset 0 1px 2px rgba(0, 0, 0, 0.1)',
-    zIndex: 10,
-    borderRadius: '2px',
+  const backToTopHoverStyles = {
+    background: '#1a1a1a',
+    color: '#fff',
+    transform: 'translateY(-2px)',
   };
 
-  const rotations = [-2, 2, -3];
-  const [hoveredCard, setHoveredCard] = useState(null);
+  const [hoveredLink, setHoveredLink] = useState(null);
+  const [hoveredSocialLink, setHoveredSocialLink] = useState(null);
+  const [resumeHovered, setResumeHovered] = useState(false);
+  const [backToTopHovered, setBackToTopHovered] = useState(false);
 
   return (
-    <section id="works" ref={sectionRef} style={sectionStyles}>
+    <footer ref={footerRef} style={footerStyles}>
       <div style={containerStyles}>
-        <div ref={headingRef} style={headerStyles}>
-          <div style={labelStyles}>Selected Work</div>
-          <h2 style={headingStyles}>Things I've Built</h2>
-          <p style={subheadingStyles}>
-            A collection of projects I'm proud of—each one solving real problems for real people.
+        {/* Thank You Card */}
+        <div style={thankYouCardStyles}>
+          {/* Decorative stamps */}
+          <div style={{...stampStyles('🌟', 15), top: '10px', left: '20px'}}>🌟</div>
+          <div style={{...stampStyles('✨', -10), top: '10px', right: '20px'}}>✨</div>
+          <div style={{...stampStyles('🎯', 12), bottom: '10px', left: '30px'}}>🎯</div>
+          <div style={{...stampStyles('💡', -8), bottom: '10px', right: '30px'}}>💡</div>
+          
+          <h2 style={thankYouTextStyles}>Thanks for stopping by!</h2>
+          <p style={thankYouSubtextStyles}>
+            Whether you're looking for help with a project or just browsing, I appreciate you taking the time. Let's create something great together!
           </p>
         </div>
 
-        <div style={gridStyles}>
-          {projectsData.map((project, index) => (
-            <div
-              key={project.id}
-              ref={addToProjectRefs}
-              data-rotation={rotations[index]}
-              style={hoveredCard === project.id 
-                ? {...projectCardStyles(project.color, rotations[index]), ...projectCardHoverStyles}
-                : projectCardStyles(project.color, rotations[index])
-              }
-              onMouseEnter={() => setHoveredCard(project.id)}
-              onMouseLeave={() => setHoveredCard(null)}
-              onClick={() => handleProjectClick(project.link)}
-            >
-              {/* Decorative tape */}
-              <div style={tapeStyles}></div>
-
-              {/* Image */}
-              <div style={imageContainerStyles}>
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  style={hoveredCard === project.id 
-                    ? {...imageStyles, ...imageHoverStyles}
-                    : imageStyles
-                  }
-                />
-                <div style={hoveredCard === project.id 
-                  ? {...overlayStyles, ...overlayHoverStyles}
-                  : overlayStyles
-                }>
-                  <div style={viewProjectStyles}>View Project →</div>
-                </div>
-              </div>
-
-              {/* Info */}
-              <div style={projectInfoStyles}>
-                <div style={projectHeaderStyles}>
-                  <div>
-                    <h3 style={projectTitleStyles}>{project.title}</h3>
-                    <span style={categoryStyles}>{project.category}</span>
-                  </div>
-                  <div style={yearBadgeStyles}>{project.year}</div>
-                </div>
-
-                <p style={descriptionStyles}>{project.description}</p>
-
-                <div style={tagsContainerStyles}>
-                  {project.tags.map((tag, tagIndex) => (
-                    <span key={`${project.id}-tag-${tagIndex}`} style={tagStyles}>
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </div>
+        {/* Main Grid */}
+        <div style={mainGridStyles}>
+          {/* Navigation */}
+          <div ref={addToColumnRefs} style={columnStyles}>
+            <span style={labelStyles}>Quick Links</span>
+            <div>
+              {footerData.links.navigation.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  style={{
+                    ...linkStyles,
+                    color: hoveredLink === link.label ? '#1a1a1a' : '#333',
+                    paddingLeft: hoveredLink === link.label ? '24px' : '20px',
+                  }}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  onMouseEnter={() => setHoveredLink(link.label)}
+                  onMouseLeave={() => setHoveredLink(null)}
+                >
+                  → {link.label}
+                </a>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Social */}
+          <div ref={addToColumnRefs} style={{...columnStyles, transform: 'rotate(1deg)'}}>
+            <span style={labelStyles}>Social</span>
+            <div>
+              {footerData.links.social.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    ...linkStyles,
+                    color: hoveredSocialLink === link.label ? '#1a1a1a' : '#333',
+                    paddingLeft: hoveredSocialLink === link.label ? '24px' : '20px',
+                  }}
+                  onMouseEnter={() => setHoveredSocialLink(link.label)}
+                  onMouseLeave={() => setHoveredSocialLink(null)}
+                >
+                  → {link.label}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Contact */}
+          <div ref={addToColumnRefs} style={{...columnStyles, transform: 'rotate(-2deg)'}}>
+            <span style={labelStyles}>Contact</span>
+            <div>
+              <a href={`mailto:${footerData.email}`} style={contactValueStyles}>
+                {footerData.email}
+              </a>
+              <a href={`tel:${footerData.phone.replace(/\s/g, '')}`} style={contactValueStyles}>
+                {footerData.phone}
+              </a>
+              <span style={contactValueStyles}>
+                📍 {footerData.location}
+              </span>
+            </div>
+            
+            <a
+              href={footerData.resumeLink}
+              download={footerData.resumeFileName}
+              style={resumeHovered ? {...resumeBtnStyles, ...resumeBtnHoverStyles} : resumeBtnStyles}
+              onMouseEnter={() => setResumeHovered(true)}
+              onMouseLeave={() => setResumeHovered(false)}
+            >
+              <span>Download Resume</span>
+              <span>📄</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Big Name */}
+        <div style={nameContainerStyles}>
+          <div ref={bigNameRef} style={bigNameStyles}>
+            {footerData.name}
+          </div>
+        </div>
+
+        {/* Bottom */}
+        <div style={bottomStyles}>
+          <span style={copyrightStyles}>
+            © {footerData.year} — All Rights Reserved
+          </span>
+          
+          <div style={creditsStyles}>
+            Made with <span style={heartStyles}>♥</span> by Ashikuzzaman
+          </div>
+          
+          <button 
+            style={backToTopHovered ? {...backToTopStyles, ...backToTopHoverStyles} : backToTopStyles}
+            onClick={scrollToTop}
+            onMouseEnter={() => setBackToTopHovered(true)}
+            onMouseLeave={() => setBackToTopHovered(false)}
+          >
+            <span>↑</span>
+            <span>Back to Top</span>
+          </button>
         </div>
       </div>
-    </section>
+    </footer>
   );
 };
 
-export default Works;
+export default Footer;
