@@ -12,18 +12,16 @@ const Hero = () => {
   const lettersRef = useRef([]);
   const scrollIndicatorRef = useRef(null);
   const ctaRef = useRef(null);
-  const imageRef = useRef(null);
   const imageContainerRef = useRef(null);
 
-  // Your Data
   const heroData = {
     eyebrow: 'Frontend Developer',
     firstName: 'ASHIK',
     lastName: 'UZZAMAN',
     role: 'Building modern web experiences with React & Next.js',
-    tagline: 'Focused on creating performant, accessible, and beautifully crafted digital products.',
+    tagline:
+      'Focused on creating performant, accessible, and beautifully crafted digital products.',
     year: '© 2024',
-    // Replace with your actual image
     image: '/images/hero-photo.jpg',
   };
 
@@ -31,21 +29,15 @@ const Hero = () => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ delay: 0.3 });
 
-      // Eyebrow animation
       tl.fromTo(
         '.hero-eyebrow',
         { opacity: 0, x: -30 },
         { opacity: 1, x: 0, duration: 0.8, ease: 'power3.out' }
       );
 
-      // Letters animation
       tl.fromTo(
         lettersRef.current,
-        {
-          y: 200,
-          opacity: 0,
-          rotationX: -90,
-        },
+        { y: 200, opacity: 0, rotationX: -90 },
         {
           y: 0,
           opacity: 1,
@@ -57,25 +49,13 @@ const Hero = () => {
         '-=0.4'
       );
 
-      // Image animation
       tl.fromTo(
         imageContainerRef.current,
-        { 
-          opacity: 0, 
-          scale: 0.8,
-          clipPath: 'polygon(0 100%, 100% 100%, 100% 100%, 0 100%)'
-        },
-        { 
-          opacity: 1, 
-          scale: 1,
-          clipPath: 'polygon(0 0%, 100% 0%, 100% 100%, 0 100%)',
-          duration: 1.2, 
-          ease: 'power4.out' 
-        },
+        { opacity: 0, scale: 0.92 },
+        { opacity: 1, scale: 1, duration: 1.2, ease: 'power4.out' },
         '-=0.8'
       );
 
-      // Subtitle animation
       tl.fromTo(
         subtitleRef.current,
         { y: 40, opacity: 0 },
@@ -83,7 +63,6 @@ const Hero = () => {
         '-=0.6'
       );
 
-      // CTA animation
       tl.fromTo(
         ctaRef.current,
         { y: 30, opacity: 0 },
@@ -91,15 +70,14 @@ const Hero = () => {
         '-=0.4'
       );
 
-      // Scroll indicator animation
       tl.fromTo(
         scrollIndicatorRef.current,
         { opacity: 0 },
-        { opacity: 1, duration: 0.6, ease: 'power3.out' },
+        { opacity: 1, duration: 0.6 },
         '-=0.2'
       );
 
-      // Parallax on scroll
+      // Text parallax
       gsap.to(titleRef.current, {
         yPercent: 30,
         opacity: 0.5,
@@ -111,10 +89,9 @@ const Hero = () => {
         },
       });
 
-      // Image parallax on scroll
-      gsap.to(imageRef.current, {
-        yPercent: 20,
-        scale: 1.1,
+      // Image parallax (container only)
+      gsap.to(imageContainerRef.current, {
+        y: 60,
         scrollTrigger: {
           trigger: heroRef.current,
           start: 'top top',
@@ -122,13 +99,11 @@ const Hero = () => {
           scrub: 1,
         },
       });
-
     }, heroRef);
 
     return () => ctx.revert();
   }, []);
 
-  // Anti-gravity effect for letters
   const handleMouseMove = (e) => {
     const { clientX, clientY } = e;
 
@@ -136,24 +111,15 @@ const Hero = () => {
       if (!letter) return;
 
       const rect = letter.getBoundingClientRect();
-      const letterCenterX = rect.left + rect.width / 2;
-      const letterCenterY = rect.top + rect.height / 2;
-
-      const deltaX = clientX - letterCenterX;
-      const deltaY = clientY - letterCenterY;
-      const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-
-      const maxDistance = 250;
-      const intensity = Math.max(0, 1 - distance / maxDistance);
-
-      const moveX = -deltaX * intensity * 0.2;
-      const moveY = -deltaY * intensity * 0.4;
-      const rotate = deltaX * intensity * 0.08;
+      const dx = clientX - (rect.left + rect.width / 2);
+      const dy = clientY - (rect.top + rect.height / 2);
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const intensity = Math.max(0, 1 - dist / 250);
 
       gsap.to(letter, {
-        x: moveX,
-        y: moveY,
-        rotation: rotate,
+        x: -dx * intensity * 0.2,
+        y: -dy * intensity * 0.4,
+        rotation: dx * intensity * 0.08,
         duration: 0.4,
         ease: 'power2.out',
       });
@@ -173,17 +139,14 @@ const Hero = () => {
     });
   };
 
-  // Image magnetic effect
   const handleImageMouseMove = (e) => {
-    if (!imageContainerRef.current) return;
-    
     const rect = imageContainerRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left - rect.width / 2;
     const y = e.clientY - rect.top - rect.height / 2;
 
     gsap.to(imageContainerRef.current, {
-      x: x * 0.1,
-      y: y * 0.1,
+      x: x * 0.08,
+      y: y * 0.08,
       rotationY: x * 0.02,
       rotationX: -y * 0.02,
       duration: 0.5,
@@ -195,8 +158,8 @@ const Hero = () => {
     gsap.to(imageContainerRef.current, {
       x: 0,
       y: 0,
-      rotationY: 0,
       rotationX: 0,
+      rotationY: 0,
       duration: 0.8,
       ease: 'elastic.out(1, 0.5)',
     });
@@ -208,10 +171,10 @@ const Hero = () => {
     }
   };
 
-  const renderAnimatedText = (text) => {
-    return text.split('').map((char, idx) => (
+  const renderAnimatedText = (text) =>
+    text.split('').map((char, i) => (
       <span
-        key={`hero-char-${idx}`}
+        key={i}
         ref={addToLetterRefs}
         className="hero-letter"
         style={{ display: 'inline-block' }}
@@ -219,76 +182,104 @@ const Hero = () => {
         {char === ' ' ? '\u00A0' : char}
       </span>
     ));
+
+  // INLINE STYLES - This will override everything
+  const imageStyles = {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    objectPosition: 'center 20%',
+    display: 'block',
+    userSelect: 'none',
+    pointerEvents: 'none',
   };
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
+  const imageWrapperStyles = {
+    position: 'relative',
+    width: '100%',
+    height: '100%',
+    borderRadius: '20px',
+    overflow: 'hidden',
+    background: '#1a1a1a',
+    boxShadow: '0 20px 60px rgba(0, 0, 0, 0.4)',
+  };
+
+  const imageContainerStyles = {
+    position: 'relative',
+    width: '380px',
+    height: '500px',
+    perspective: '1000px',
+    transformStyle: 'preserve-3d',
+    justifySelf: 'end',
+  };
+
+  const heroInnerStyles = {
+    width: '100%',
+    maxWidth: '1400px',
+    margin: '0 auto',
+    padding: '0 60px',
+    display: 'grid',
+    gridTemplateColumns: '1fr auto',
+    gap: '80px',
+    alignItems: 'center',
+    minHeight: '100vh',
   };
 
   return (
-    <section
-      id="home"
-      ref={heroRef}
-      className="hero"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-    >
-      <div className="hero-content">
-        <div className="hero-eyebrow">{heroData.eyebrow}</div>
-        
-        <div ref={titleRef} className="hero-title">
-          <div className="hero-name-line">
-            {renderAnimatedText(heroData.firstName)}
-          </div>
-          <div className="hero-name-line outlined">
-            {renderAnimatedText(heroData.lastName)}
-          </div>
-        </div>
-        
-        <div ref={subtitleRef} className="hero-subtitle">
-          <p className="hero-role">{heroData.role}</p>
-          <p className="hero-tagline">{heroData.tagline}</p>
-        </div>
-        
-        <div ref={ctaRef} className="hero-cta">
-          <button 
-            className="cta-button hover-target"
-            onClick={() => scrollToSection('works')}
-          >
-            View Projects
-          </button>
-          <button 
-            className="cta-button cta-button-outline hover-target"
-            onClick={() => scrollToSection('contact')}
-          >
-            Get In Touch
-          </button>
-        </div>
-      </div>
+    <section id="home" ref={heroRef} className="hero">
+      <div className="hero-inner" style={heroInnerStyles}>
+        <div
+          className="hero-content"
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+        >
+          <div className="hero-eyebrow">{heroData.eyebrow}</div>
 
-      {/* Hero Image */}
-      <div 
-        ref={imageContainerRef}
-        className="hero-image-container"
-        onMouseMove={handleImageMouseMove}
-        onMouseLeave={handleImageMouseLeave}
-      >
-        <div className="hero-image-wrapper">
-          <img 
-            ref={imageRef}
-            src={heroData.image} 
-            alt="Ashikuzzaman" 
-            className="hero-image"
-          />
-          <div className="hero-image-overlay"></div>
+          <div ref={titleRef} className="hero-title">
+            <div className="hero-name-line">
+              {renderAnimatedText(heroData.firstName)}
+            </div>
+            <div className="hero-name-line outlined">
+              {renderAnimatedText(heroData.lastName)}
+            </div>
+          </div>
+
+          <div ref={subtitleRef} className="hero-subtitle">
+            <p className="hero-role">{heroData.role}</p>
+            <p className="hero-tagline">{heroData.tagline}</p>
+          </div>
+
+          <div ref={ctaRef} className="hero-cta">
+            <button className="cta-button">View Projects</button>
+            <button className="cta-button cta-button-outline">
+              Get In Touch
+            </button>
+          </div>
         </div>
-        <div className="hero-image-frame"></div>
-        <div className="hero-image-label">
-          <span>Based in</span>
-          <span>Bangladesh</span>
+
+        <div
+          ref={imageContainerRef}
+          className="hero-image-container"
+          style={imageContainerStyles}
+          onMouseMove={handleImageMouseMove}
+          onMouseLeave={handleImageMouseLeave}
+        >
+          <div className="hero-image-wrapper" style={imageWrapperStyles}>
+            <img
+              src={heroData.image}
+              alt="Ashik Uzzaman"
+              className="hero-image"
+              style={imageStyles}
+            />
+            <div className="hero-image-overlay"></div>
+          </div>
+
+          <div className="hero-image-frame"></div>
+
+          <div className="hero-image-label">
+            <span>Based in</span>
+            <span>Bangladesh</span>
+          </div>
         </div>
       </div>
 
@@ -298,10 +289,6 @@ const Hero = () => {
       </div>
 
       <div className="hero-year">{heroData.year}</div>
-
-      <div className="hero-decoration">
-        <div className="hero-grid-overlay"></div>
-      </div>
     </section>
   );
 };
